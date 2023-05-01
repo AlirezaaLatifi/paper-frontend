@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://alirezaa-latifi.github.io/paper-frontend",
+  "homepage": "http://alirezaa-latifi.github.io/paper",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
