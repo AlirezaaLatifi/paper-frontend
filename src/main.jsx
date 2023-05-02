@@ -4,7 +4,7 @@ import App from './App';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename="/paper-fronend">
+  <BrowserRouter basename={import.meta.env.VITE_BASE_NAME}>
     <App />
   </BrowserRouter>
 );
