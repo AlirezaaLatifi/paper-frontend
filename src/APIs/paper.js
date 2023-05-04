@@ -8,21 +8,19 @@ async function getAllPapers() {
   try {
     const { data } = await API.get('/papers');
     return { papers: data.data.papers, isSuccess: true };
-  } catch (err) {
+  } catch (errorMessage) {
     return { isSuccess: false };
   }
 }
 
 // get user papers
-async function getUserPapers(token, userID) {
-  const response = await fetch(`http://localhost:7575/papers/users/${userID}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const resBodyObject = await response.json();
-  return resBodyObject;
+async function getUserPapers(userID) {
+  try {
+    const { data } = await API.get(`/papers/users/${userID}`);
+    return { isSuccess: true, papers: data.data.papers };
+  } catch (errorMessage) {
+    return { isSuccess: false };
+  }
 }
 
 // delete paper
@@ -30,8 +28,8 @@ async function deletePaper(paperID) {
   try {
     await API.delete(`/papers/${paperID}`);
     return { isSuccess: true };
-  } catch (err) {
-    return { isSuccess: false, message: err.message };
+  } catch (errorMessage) {
+    return { isSuccess: false, message: errorMessage };
   }
 }
 
@@ -56,8 +54,8 @@ async function addPaper(type, paperData, username) {
       headers: { 'Content-Type': 'application/json' },
     });
     return { isSuccess: true };
-  } catch (err) {
-    return { isSuccess: false, message: err.message };
+  } catch (errorMessage) {
+    return { isSuccess: false, message: errorMessage };
   }
 }
 

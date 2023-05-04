@@ -5,8 +5,8 @@ async function getAllBooks() {
   try {
     const { data } = await API.get('/books');
     return { isSuccess: true, books: data.data.books };
-  } catch (err) {
-    return { isSuccess: false, message: err.message };
+  } catch (errorMessage) {
+    return { isSuccess: false, message: errorMessage };
   }
 }
 
@@ -15,7 +15,7 @@ async function getBook(bookID) {
   try {
     const { data } = await API.get(`/books/${bookID}`);
     return { isSuccess: true, book: data };
-  } catch (err) {
+  } catch (errorMessage) {
     return { isSuccess: false };
   }
 }
@@ -25,7 +25,7 @@ async function getSearchBooks(searchParam) {
   try {
     const { data } = await API.get(`/books/search?title=${searchParam}`);
     return { isSuccess: true, book: data.book };
-  } catch (err) {
+  } catch (errorMessage) {
     return { isSuccess: false };
   }
 }

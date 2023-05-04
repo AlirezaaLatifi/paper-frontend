@@ -64,6 +64,7 @@ function AuthProvider({ children }) {
             }
           });
         }
+        return Promise.reject(err.response.data.message);
       }
     );
   }, []);
