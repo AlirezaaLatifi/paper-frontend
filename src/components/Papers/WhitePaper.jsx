@@ -22,7 +22,9 @@ function WhitePaper({ paper, onPapersUpdate }) {
       <div className="flex gap-4 ">
         <img
           className="h-10 w-10 items-start rounded-full"
-          src="src/assets/avatar.jpeg"
+          src={
+            import.meta.env.PROD ? '/paper-frontend/avatar.jpeg' : 'avatar.jpeg'
+          }
           alt="user avatar"
         />
         <div className="flex w-full flex-col gap-1">

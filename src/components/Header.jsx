@@ -27,7 +27,11 @@ function Header() {
     <nav className=" border-b border-gray-200 bg-gray-100 py-2.5 dark:bg-gray-900">
       <div className="container mx-auto flex flex-wrap items-center justify-between px-2 sm:px-4">
         <Link to="/" className="flex items-center">
-          <img src="logo.png" className="mr-3 h-9" alt="Paper Logo" />
+          <img
+            src={import.meta.env.PROD ? '/paper-frontend/logo.png' : 'logo.png'}
+            className="mr-3 h-9"
+            alt="Paper Logo"
+          />
           <span className="self-center whitespace-nowrap text-xl font-semibold  dark:text-white">
             Paper
           </span>
