@@ -24,6 +24,7 @@ async function loginUser(userInputs) {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       }
     );
     return { isSuccess: true, accessToken: data.accessToken };
