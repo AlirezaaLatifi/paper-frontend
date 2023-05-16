@@ -7,8 +7,10 @@ import {
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../APIs/user';
+import { useAuthSetState } from '../contexts/auth';
 
 function Header() {
+  const updateAuth = useAuthSetState();
   const navigate = useNavigate();
   const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -20,7 +22,8 @@ function Header() {
   function handleLogout() {
     logoutUser().then(({ isSuccess }) => {
       if (isSuccess) {
-        navigate('/login');
+        updateAuth(null);
+        navigate('/');
       }
     });
   }
