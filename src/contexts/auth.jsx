@@ -43,7 +43,7 @@ function AuthProvider({ children }) {
     API.interceptors.request.use(
       (config) => {
         // eslint-disable-next-line no-param-reassign
-        config.headers.Authorization = `bearer ${authRef.current.token}`;
+        config.headers.Authorization = `bearer ${authRef.current?.token}`;
         return config;
       },
       (error) => Promise.reject(error)

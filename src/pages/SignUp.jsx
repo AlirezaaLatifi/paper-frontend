@@ -56,7 +56,7 @@ function SignUp() {
     e.preventDefault();
     registerUser(formValues).then((isRegistered) => {
       if (isRegistered) {
-        navigate('/profile');
+        navigate('/');
       } else {
         setErrorMessage('username already exists.');
       }
@@ -111,7 +111,7 @@ function SignUp() {
 // ? Its repeated in SignIn too. how to DRY it.
 function Wrapper() {
   const auth = useAuthState();
-  if (auth.token) redirect('/');
+  if (auth?.token) redirect('/');
   return <SignUp />;
 }
 
