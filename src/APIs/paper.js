@@ -1,6 +1,3 @@
-// import jwtDecode from 'jwt-decode';
-// import { getAccessToken } from './user';
-
 import API from '.';
 
 // get all papers

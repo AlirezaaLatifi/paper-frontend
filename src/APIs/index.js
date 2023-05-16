@@ -6,7 +6,6 @@ const API = axios.create({
   baseURL,
 });
 
-// ? what is it for?
 API.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject(error)

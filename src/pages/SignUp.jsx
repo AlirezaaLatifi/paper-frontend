@@ -13,7 +13,7 @@ function SignUp() {
     confirmPassword: '',
   });
 
-  // ? I cant extract this input into consts folder, since its dynamic. what is best practise?!
+  // ? I cant extract this input into consts folder, since its dynamic. what is the best practise?!
   const inputs = [
     {
       id: 1,
@@ -108,7 +108,6 @@ function SignUp() {
   );
 }
 
-// ? Its repeated in SignIn too. how to DRY it.
 function Wrapper() {
   const auth = useAuthState();
   if (auth?.token) redirect('/');
@@ -116,6 +115,3 @@ function Wrapper() {
 }
 
 export default Wrapper;
-
-// TODO: Error handling is totally mess.
-// ? at first render state propertiers are empty, but then it re-renders with saved values. It seems the browser add them. how to avoid that?

@@ -98,7 +98,6 @@ function SignIn() {
   );
 }
 
-// ? Its repeated in SignUp too. how to DRY it.
 function Wrapper() {
   const auth = useAuthState();
   if (auth?.token) redirect('/');

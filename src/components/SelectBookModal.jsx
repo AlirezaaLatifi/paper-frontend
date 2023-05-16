@@ -36,13 +36,11 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }) {
   };
 
   return createPortal(
-    // TODO: Remove eslint disablers.
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className="fixed top-0 right-0 left-0 bottom-0 bg-[rgba(0,0,0,0.7)] z-[1000]"
       onClick={onClose}
     >
-      {/* TODO  */}
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         onClick={(e) => e.stopPropagation()}

@@ -16,7 +16,6 @@ function AuthProvider({ children }) {
   });
 
   const authRef = useRef(auth);
-  // ? if I remove below line, the APIs will call with last access token, so we get 403 error.
   authRef.current = auth;
 
   // to get access token with refresh token at first mount
@@ -79,7 +78,8 @@ function AuthProvider({ children }) {
   );
 }
 
-// * custom hook for useContext
+// * custom hooks for useContext
+
 function useAuthState() {
   const auth = useContext(AuthContext);
   return auth;
@@ -96,5 +96,3 @@ function useAuthSetState() {
 }
 
 export { AuthProvider, useAuthState, useAuthSetState };
-
-// ? what is withAuth HOC that Robin mentioned in his context tutorial about?
