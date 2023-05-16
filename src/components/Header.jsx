@@ -1,6 +1,8 @@
 import {
   ArrowRightOnRectangleIcon,
   BookmarkIcon,
+  HomeIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -70,9 +72,10 @@ function Header() {
                 className={({ isActive }) => {
                   return `${
                     isActive && 'bg-teal-600 text-white md:text-teal-700'
-                  } block rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0`;
+                  } flex gap-1 items-center rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0`;
                 }}
               >
+                <HomeIcon className="w-5 h-5 text-bold" />
                 Home
               </NavLink>
             </li>
@@ -82,9 +85,10 @@ function Header() {
                 className={({ isActive }) => {
                   return `${
                     isActive && 'bg-teal-600 text-white md:text-teal-700'
-                  } block rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0`;
+                  } flex gap-1 items-center rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0`;
                 }}
               >
+                <UserIcon className="w-5 h-5" />
                 Profile
               </NavLink>
             </li>
@@ -94,15 +98,21 @@ function Header() {
                 className={({ isActive }) => {
                   return `${
                     isActive && 'bg-teal-600 text-white md:text-teal-700'
-                  } block rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0`;
+                  } flex items-center gap-1 rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0`;
                 }}
               >
                 <BookmarkIcon className="h-5 w-5" />
+                Bookmarks
               </NavLink>
             </li>
             <li className="block rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0">
-              <button type="button" onClick={handleLogout}>
+              <button
+                className="flex items-center gap-1 hover:text-red-600"
+                type="button"
+                onClick={handleLogout}
+              >
                 <ArrowRightOnRectangleIcon className="h-5 w-5 cursor-pointer" />
+                Logout
               </button>
             </li>
           </ul>
