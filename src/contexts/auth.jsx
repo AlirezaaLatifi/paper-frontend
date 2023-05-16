@@ -4,7 +4,8 @@ import { getAccessToken } from '../APIs/user';
 import API from '../APIs';
 
 // * creating context
-const authContext = createContext(null);
+const AuthContext = createContext(null);
+const AuthContextSetState = createContext(null);
 
 // * custom context provider
 function AuthProvider({ children }) {
@@ -70,24 +71,30 @@ function AuthProvider({ children }) {
   }, []);
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <authContext.Provider value={[auth, setAuth]}>
-      {children}
-    </authContext.Provider>
+    <AuthContext.Provider value={auth}>
+      <AuthContextSetState.Provider value={setAuth}>
+        {children}
+      </AuthContextSetState.Provider>
+    </AuthContext.Provider>
   );
 }
 
 // * custom hook for useContext
-function useAuth() {
-  const [auth, setAuth] = useContext(authContext);
+function useAuthState() {
+  const auth = useContext(AuthContext);
+  return auth;
+}
+
+function useAuthSetState() {
+  const setAuth = useContext(AuthContextSetState);
 
   const updateAuth = (newAuth) => {
     setAuth(newAuth);
   };
 
-  return { auth, updateAuth };
+  return updateAuth;
 }
 
-export { AuthProvider, useAuth };
+export { AuthProvider, useAuthState, useAuthSetState };
 
 // ? what is withAuth HOC that Robin mentioned in his context tutorial about?

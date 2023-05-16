@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 import FormInput from '../components/FormInput';
-import { useAuth } from '../contexts/auth';
 import { registerUser } from '../APIs/user';
+import { useAuthState } from '../contexts/auth';
 
 function SignUp() {
   const navigate = useNavigate();
@@ -110,7 +110,7 @@ function SignUp() {
 
 // ? Its repeated in SignIn too. how to DRY it.
 function Wrapper() {
-  const { auth } = useAuth();
+  const auth = useAuthState();
   if (auth.token) redirect('/');
   return <SignUp />;
 }

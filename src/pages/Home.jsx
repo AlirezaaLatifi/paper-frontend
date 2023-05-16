@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 import { getAllPapers } from '../APIs/paper';
 import AddPaper from '../components/AddPaper/AddPaper';
 import Feed from '../components/Feed';
-import { useAuth } from '../contexts/auth';
+import { useAuthState } from '../contexts/auth';
 
 function Home() {
   const [papers, setPapers] = useState(null);
-  const { auth } = useAuth();
+  const auth = useAuthState();
   const handlePapers = (newPapers) => {
     setPapers(newPapers);
   };
 
+  // TODO
   useEffect(() => {
     getAllPapers().then((res) => {
       if (res.isSuccess) {

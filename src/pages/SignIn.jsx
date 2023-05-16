@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import FormInput from '../components/FormInput';
-import { useAuth } from '../contexts/auth';
+import { useAuthSetState, useAuthState } from '../contexts/auth';
 import { SIGNININPUTS } from '../consts/inputs';
 import { loginUser } from '../APIs/user';
 
 function SignIn() {
   const navigate = useNavigate();
-  const { updateAuth } = useAuth();
+  const updateAuth = useAuthSetState();
   const [formValues, setFormValues] = useState({
     username: '',
     password: '',
@@ -100,7 +100,7 @@ function SignIn() {
 
 // ? Its repeated in SignUp too. how to DRY it.
 function Wrapper() {
-  const { auth } = useAuth();
+  const auth = useAuthState();
   if (auth.token) redirect('/');
   return <SignIn />;
 }

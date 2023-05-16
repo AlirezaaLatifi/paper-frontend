@@ -1,11 +1,11 @@
 import { DocumentMinusIcon } from '@heroicons/react/24/outline';
 import PaperActionBar from '../PaperActionBar';
-import { useAuth } from '../../contexts/auth';
+import { useAuthState } from '../../contexts/auth';
 import { deletePaper, getAllPapers } from '../../APIs/paper';
 // import { deletePaper } from '../../APIs/paper';
 
 function WhitePaper({ paper, onPapersUpdate }) {
-  const { auth } = useAuth();
+  const auth = useAuthState();
 
   const handleDeletePaper = () => {
     deletePaper(paper.id).then(() => {
