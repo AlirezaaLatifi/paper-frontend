@@ -131,6 +131,7 @@ function AddCutPaper({ onPapersUpdate }) {
             onChange={handleQoute}
             value={paperData.qoute}
             className="mt-4 block w-full resize-none border border-gray-300 bg-gray-50 p-2 font-book outline-none focus:border focus:border-teal-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-teal-500 dark:focus:ring-teal-500"
+            placeholder="Passage from the book ..."
           />
           <svg
             className="absolute -bottom-2 left-4 z-30 h-4 w-4"
@@ -168,7 +169,7 @@ function AddCutPaper({ onPapersUpdate }) {
         <textarea
           onChange={handleText}
           value={paperData.text}
-          placeholder="Share your feelings or thoughts at the time of reading this part . . . "
+          placeholder="Your feelings or thoughts ..."
           className="mt-4 w-full resize-none rounded-xl border border-gray-300 bg-gray-50 p-2 font-handwrite focus:border focus:border-teal-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-teal-500 dark:focus:ring-teal-500"
         />
       </div>
