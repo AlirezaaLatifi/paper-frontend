@@ -64,8 +64,8 @@ function SignUp() {
   };
 
   return (
-    <div className="container mx-auto flex h-screen">
-      <div className="grid w-full place-items-center bg-teal-900 ">
+    <div className="container mx-auto flex flex-col h-screen md:flex-row ">
+      <div className="grid w-full place-items-center bg-teal-900 h-20 md:h-auto">
         <h1 className="text-5xl text-white">Sign Up</h1>
       </div>
       <div className="w-full self-center p-5">
@@ -98,7 +98,7 @@ function SignUp() {
           )}
           <p className="pt-2 border-t">
             Already registered?{' '}
-            <Link className="text-blue-700 " to="/login">
+            <Link className="text-blue-700 whitespace-nowrap" to="/login">
               -{'>'} Login Now
             </Link>
           </p>

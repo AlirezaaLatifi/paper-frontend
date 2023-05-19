@@ -41,8 +41,8 @@ function SignIn() {
   };
 
   return (
-    <div className="container mx-auto flex h-screen">
-      <div className="grid w-full place-items-center bg-teal-900 ">
+    <div className="container mx-auto flex flex-col h-screen md:flex-row">
+      <div className="grid w-full place-items-center bg-teal-900 h-20 md:h-auto ">
         <h1 className="text-5xl text-white">Sign In</h1>
       </div>
       <div className="w-full self-center p-5">
@@ -63,7 +63,7 @@ function SignIn() {
           ))}
 
           <div className="flex items-center gap-2">
-            <label htmlFor="remember">remember me</label>
+            {/* <label htmlFor="remember">remember me</label>
             <input
               id="remember"
               type="checkbox"
@@ -74,7 +74,7 @@ function SignIn() {
                   remember: !formValues.remember,
                 })
               }
-            />
+            /> */}
           </div>
           <button
             type="submit"
@@ -88,7 +88,7 @@ function SignIn() {
           )}
           <p className="pt-2 border-t">
             Didn&apos;t registered yet?{' '}
-            <Link className="text-blue-700 " to="/register">
+            <Link className="text-blue-700 whitespace-nowrap " to="/register">
               -{'>'} Sign up Now
             </Link>
           </p>
