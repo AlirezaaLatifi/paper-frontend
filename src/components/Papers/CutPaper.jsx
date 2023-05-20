@@ -3,7 +3,7 @@ import PaperActionBar from '../PaperActionBar';
 import { useAuthState } from '../../contexts/auth';
 import { deletePaper, getAllPapers } from '../../APIs/paper';
 
-function CutPaper({ paper, onPapersUpdate }) {
+function CutPaper({ paper, onPapersUpdate, onBookmark = () => {} }) {
   const auth = useAuthState();
   const handleDeletePaper = () => {
     deletePaper(paper.id).then(() => {
@@ -51,7 +51,7 @@ function CutPaper({ paper, onPapersUpdate }) {
           </p>
         </div>
       </div>
-      <PaperActionBar paperID={paper.id} />
+      <PaperActionBar paperID={paper.id} onBookmark={onBookmark} />
     </div>
   );
 }
