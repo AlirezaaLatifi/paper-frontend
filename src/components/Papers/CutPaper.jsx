@@ -51,7 +51,7 @@ function CutPaper({ paper, onPapersUpdate }) {
           </p>
         </div>
       </div>
-      <PaperActionBar />
+      <PaperActionBar paperID={paper.id} />
     </div>
   );
 }

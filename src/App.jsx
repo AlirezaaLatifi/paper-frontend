@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import Bookmarks from './pages/Boolmarks';
+import Bookmarks from './pages/Bookmarks';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Layout from './pages/Layout';
