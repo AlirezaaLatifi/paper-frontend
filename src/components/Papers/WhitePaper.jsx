@@ -17,7 +17,7 @@ function WhitePaper({ paper, onPapersUpdate }) {
   };
 
   return (
-    <div className="flex flex-col gap-4 border border-gray-300 bg-white p-4 md:mx-auto md:w-1/2">
+    <div className="flex flex-col gap-4 border border-gray-300 bg-white p-4">
       <div className="flex gap-4 ">
         <img
           className="h-10 w-10 items-start rounded-full"
