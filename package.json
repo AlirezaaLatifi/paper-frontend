@@ -6,7 +6,8 @@
   "homepage": "https://alirezaa-latifi.github.io/paper-frontend/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
@@ -20,8 +21,11 @@
     "react-router-dom": "6.9.0"
   },
   "devDependencies": {
+    "@types/node": "20.3.1",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+    "@typescript-eslint/eslint-plugin": "5.59.0",
+    "@typescript-eslint/parser": "5.59.0",
     "@vitejs/plugin-react": "3.1.0",
     "autoprefixer": "10.4.14",
     "eslint": "8.36.0",
