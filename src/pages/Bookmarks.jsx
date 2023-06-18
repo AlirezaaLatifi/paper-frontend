@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAllPapers } from '../APIs/paper';
-import WhitePaper from '../components/Papers/WhitePaper';
-import CutPaper from '../components/Papers/CutPaper';
+import WhitePaper from '../components/WhitePaper';
+import CutPaper from '../components/CutPaper';
 
 function Bookmarks() {
   console.log('Bookmark');

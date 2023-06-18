@@ -5,9 +5,9 @@ import {
 } from '@heroicons/react/24/outline';
 import { PaperClipIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
-import { useAuthState } from '../../contexts/auth';
-import { getAllPapers, addPaper } from '../../APIs/paper';
-import SelectBookModal from '../SelectBookModal';
+import { useAuthState } from '../contexts/auth';
+import { getAllPapers, addPaper } from '../APIs/paper';
+import SelectBookModal from './SelectBookModal';
 
 function AddCutPaper({ onPapersUpdate }) {
   const auth = useAuthState();

@@ -1,5 +1,5 @@
-import CutPaper from './Papers/CutPaper';
-import WhitePaper from './Papers/WhitePaper';
+import CutPaper from './CutPaper';
+import WhitePaper from './WhitePaper';
 
 function Feed({ papers, onPapersUpdate }) {
   if (!papers)

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllPapers } from '../APIs/paper';
-import AddPaper from '../components/AddPaper/AddPaper';
+import AddPaper from '../components/AddPaper';
 import Feed from '../components/Feed';
 import { useAuthState } from '../contexts/auth';
 

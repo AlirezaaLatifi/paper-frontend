@@ -1,8 +1,8 @@
 import { DocumentMinusIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
-import PaperActionBar from '../PaperActionBar';
-import { useAuthState } from '../../contexts/auth';
-import { deletePaper, getAllPapers } from '../../APIs/paper';
+import PaperActionBar from './PaperActionBar';
+import { useAuthState } from '../contexts/auth';
+import { deletePaper, getAllPapers } from '../APIs/paper';
 
 function WhitePaper({ paper, onPapersUpdate, onBookmark = () => {} }) {
   const { pathname } = useLocation();

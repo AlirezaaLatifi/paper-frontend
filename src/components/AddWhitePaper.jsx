@@ -1,7 +1,7 @@
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import { addPaper, getAllPapers } from '../../APIs/paper';
-import { useAuthState } from '../../contexts/auth';
+import { addPaper, getAllPapers } from '../APIs/paper';
+import { useAuthState } from '../contexts/auth';
 
 function AddWhitePaper({ onPapersUpdate }) {
   const [text, setText] = useState('');
