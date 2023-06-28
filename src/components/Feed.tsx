@@ -1,7 +1,14 @@
+import { Paper } from '../APIs/paper';
+import { HandlePapersFunc } from '../pages/Home';
 import CutPaper from './CutPaper';
 import WhitePaper from './WhitePaper';
 
-function Feed({ papers, onPapersUpdate }) {
+type Props = {
+  papers: Paper[];
+  onPapersUpdate: HandlePapersFunc;
+};
+
+function Feed({ papers, onPapersUpdate }: Props) {
   if (!papers)
     return <p className="py-4 text-center uppercase">... loading ...</p>;
 

@@ -1,13 +1,27 @@
 import API from '.';
 
-type Paper = {
+export type WhitePaperType = {
+  id: number;
+  user: string;
+  userID: number;
+  type: 'white';
+  text: string;
+  createdDate: string;
+};
+
+export type CutPaperType = {
   id: number;
   userID: number;
-  type: string;
+  type: 'cut';
   text: string;
   createdDate: string;
   user: string;
+  bookID: number;
+  bookTitle: string;
+  qoute: string;
 };
+
+export type Paper = WhitePaperType | CutPaperType;
 
 // get all papers
 async function getAllPapers() {

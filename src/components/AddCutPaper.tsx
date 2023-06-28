@@ -4,37 +4,46 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { PaperClipIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import { useAuthState } from '../contexts/auth';
-import { getAllPapers, addPaper } from '../APIs/paper';
+import { getAllPapers, addPaper, CutPaperData } from '../APIs/paper';
 import SelectBookModal from './SelectBookModal';
+import { HandlePapersFunc } from '../pages/Home';
 
-function AddCutPaper({ onPapersUpdate }) {
+export type HandleBookTitle = (bookTitle: string) => void;
+
+export type HandleBookId = (bookId: number | null) => void;
+
+type Props = {
+  onPapersUpdate: HandlePapersFunc;
+};
+
+function AddCutPaper({ onPapersUpdate }: Props) {
   const auth = useAuthState();
-  const [paperData, setPaperData] = useState({
+  const [paperData, setPaperData] = useState<CutPaperData>({
     text: '',
     qoute: '',
     bookTitle: '',
     bookId: null,
-    papertype: 'cut',
+    paperType: 'cut',
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleQoute = (e) => {
+  const handleQoute: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setPaperData({ ...paperData, qoute: e.target.value });
   };
 
-  const handleText = (e) => {
+  const handleText: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setPaperData({ ...paperData, text: e.target.value });
   };
 
-  const handleBookId = (bookId) => {
+  const handleBookId: HandleBookId = (bookId) => {
     setPaperData((pre) => {
       return { ...pre, bookId };
     });
   };
 
-  const handleBookTitle = (bookTitle) => {
+  const handleBookTitle: HandleBookTitle = (bookTitle: string) => {
     setPaperData((pre) => {
       return { ...pre, bookTitle };
     });
@@ -47,6 +56,7 @@ function AddCutPaper({ onPapersUpdate }) {
       });
     });
     setPaperData({
+      paperType: 'cut',
       text: '',
       qoute: '',
       bookTitle: '',

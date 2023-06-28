@@ -1,20 +1,25 @@
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
-import { addPaper, getAllPapers } from '../APIs/paper';
+import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
+import { WhitePaperData, addPaper, getAllPapers } from '../APIs/paper';
 import { useAuthState } from '../contexts/auth';
+import { HandlePapersFunc } from '../pages/Home';
 
-function AddWhitePaper({ onPapersUpdate }) {
-  const [paperData, setPaperData] = useState({
+type Props = {
+  onPapersUpdate: HandlePapersFunc;
+};
+
+function AddWhitePaper({ onPapersUpdate }: Props) {
+  const [paperData, setPaperData] = useState<WhitePaperData>({
     text: '',
     paperType: 'white',
   });
   const auth = useAuthState();
 
-  const handleTextChange = (e) => {
+  const handleTextChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setPaperData({ ...paperData, text: e.target.value });
   };
 
-  const handleAddPaper = async () => {
+  const handleAddPaper: MouseEventHandler<HTMLButtonElement> = async () => {
     addPaper(paperData, auth.username).then(() => {
       getAllPapers().then((papers) => {
         onPapersUpdate(papers);

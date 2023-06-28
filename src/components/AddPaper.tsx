@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import AddCutPaper from './AddCutPaper';
 import AddWhitePaper from './AddWhitePaper';
+import { HandlePapersFunc } from '../pages/Home';
 
-function AddPaper({ onPapersUpdate }) {
+type Props = {
+  onPapersUpdate: HandlePapersFunc;
+};
+
+function AddPaper({ onPapersUpdate }: Props) {
   const [paperType, setPaperType] = useState('cut');
 
-  function handlePaperType(e) {
+  const handlePaperType: ChangeEventHandler<HTMLSelectElement> = (e) => {
     setPaperType(e.target.value);
-  }
+  };
 
   return (
     <div className=" border border-gray-300 bg-white p-4 dark:bg-gray-700 md:mx-auto md:max-w-screen-sm md:p-8">

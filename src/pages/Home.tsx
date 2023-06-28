@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { getAllPapers } from '../APIs/paper';
+import { Paper, getAllPapers } from '../APIs/paper';
 import AddPaper from '../components/AddPaper';
 import Feed from '../components/Feed';
 import { useAuthState } from '../contexts/auth';
 
+export type HandlePapersFunc = (newPapers: Paper[]) => void;
+
 function Home() {
-  const [papers, setPapers] = useState(null);
+  const [papers, setPapers] = useState<Paper[]>([]);
   const auth = useAuthState();
-  const handlePapers = (newPapers) => {
+  const handlePapers: HandlePapersFunc = (newPapers: Paper[]) => {
     setPapers(newPapers);
   };
 

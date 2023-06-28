@@ -1,9 +1,16 @@
 import { BookOpenIcon, DocumentMinusIcon } from '@heroicons/react/24/outline';
 import PaperActionBar from './PaperActionBar';
 import { useAuthState } from '../contexts/auth';
-import { deletePaper, getAllPapers } from '../APIs/paper';
+import { CutPaperType, deletePaper, getAllPapers } from '../APIs/paper';
+import { HandlePapersFunc } from '../pages/Home';
 
-function CutPaper({ paper, onPapersUpdate, onBookmark = () => {} }) {
+type Props = {
+  paper: CutPaperType;
+  onPapersUpdate: HandlePapersFunc;
+  onBookmark?: () => void;
+};
+
+function CutPaper({ paper, onPapersUpdate, onBookmark = () => {} }: Props) {
   const auth = useAuthState();
   const handleDeletePaper = () => {
     deletePaper(paper.id).then(() => {

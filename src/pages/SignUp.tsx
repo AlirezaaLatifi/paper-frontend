@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 import FormInput from '../components/FormInput';
 import { registerUser } from '../APIs/user';
@@ -7,7 +7,12 @@ import { useAuthState } from '../contexts/auth';
 function SignUp() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<{
+    [key: string]: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
+  }>({
     username: '',
     password: '',
     confirmPassword: '',
@@ -48,11 +53,11 @@ function SignUp() {
     },
   ];
 
-  const handleFormInputChanges = (e) => {
+  const handleFormInputChanges: ChangeEventHandler<HTMLInputElement> = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     registerUser(formValues)
       .then(() => {
@@ -80,7 +85,7 @@ function SignUp() {
                 placeholder={input.placeholder}
                 required={input.required}
                 errorMessage={input.errorMessage}
-                pattern={input.pattern ? input.pattern : null}
+                pattern={input.pattern ? input.pattern : ''}
                 onChange={handleFormInputChanges}
                 value={formValues[input.name]}
               />

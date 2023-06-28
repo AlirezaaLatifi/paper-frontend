@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import { getAllPapers } from '../APIs/paper';
+import { Paper, getAllPapers } from '../APIs/paper';
 import WhitePaper from '../components/WhitePaper';
 import CutPaper from '../components/CutPaper';
 
 function Bookmarks() {
-  console.log('Bookmark');
   const [renderState, setRenderState] = useState(false);
-  const [bookmarkedPaperIDs, setBookmarkedPaperIDs] = useState(null);
-
-  const [bookmarkedPapers, setBookmarkedPapers] = useState(null);
+  const [bookmarkedPaperIDs, setBookmarkedPaperIDs] = useState<number[]>([]);
+  const [bookmarkedPapers, setBookmarkedPapers] = useState<Paper[]>([]);
 
   const onBookmark = () => {
     setRenderState((pre) => !pre);
@@ -22,7 +20,7 @@ function Bookmarks() {
   useEffect(() => {
     getAllPapers().then((papers) => {
       setBookmarkedPapers(
-        papers.filter((paper) => bookmarkedPaperIDs?.includes(paper.id))
+        papers.filter((paper) => bookmarkedPaperIDs.includes(paper.id))
       );
     });
   }, [bookmarkedPaperIDs]);

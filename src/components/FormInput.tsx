@@ -1,4 +1,16 @@
-import { useState } from 'react';
+import { ChangeEventHandler, HTMLInputTypeAttribute, useState } from 'react';
+
+type Props = {
+  name: string;
+  type: HTMLInputTypeAttribute;
+  label: string;
+  placeholder: string;
+  required: boolean;
+  errorMessage: string;
+  pattern: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  value: string;
+};
 
 function FormInput({
   name,
@@ -10,7 +22,7 @@ function FormInput({
   pattern,
   onChange,
   value,
-}) {
+}: Props) {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   return (
     <label className="group flex flex-col gap-2 text-sm font-medium dark:text-white">
@@ -22,7 +34,7 @@ function FormInput({
         type={type}
         placeholder={placeholder}
         required={required}
-        pattern={pattern}
+        pattern={pattern ? pattern : undefined}
         value={value}
         onChange={onChange}
         onBlur={() => setShowErrorMessage(true)}

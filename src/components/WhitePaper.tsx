@@ -2,9 +2,16 @@ import { DocumentMinusIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
 import PaperActionBar from './PaperActionBar';
 import { useAuthState } from '../contexts/auth';
-import { deletePaper, getAllPapers } from '../APIs/paper';
+import { WhitePaperType, deletePaper, getAllPapers } from '../APIs/paper';
+import { HandlePapersFunc } from '../pages/Home';
 
-function WhitePaper({ paper, onPapersUpdate, onBookmark = () => {} }) {
+type Props = {
+  paper: WhitePaperType;
+  onPapersUpdate: HandlePapersFunc;
+  onBookmark?: () => void;
+};
+
+function WhitePaper({ paper, onPapersUpdate, onBookmark = () => {} }: Props) {
   const { pathname } = useLocation();
   const auth = useAuthState();
   const handleDeletePaper = () => {

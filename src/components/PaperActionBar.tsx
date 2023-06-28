@@ -1,18 +1,25 @@
 import { BookmarkIcon } from '@heroicons/react/24/outline';
-
 import { useState } from 'react';
 
-function PaperActionBar({ paperID, onBookmark }) {
-  const [isBookmarked, setIsBookmarked] = useState(() => {
+type Props = {
+  paperID: number;
+  onBookmark: () => void;
+};
+
+function PaperActionBar({ paperID, onBookmark }: Props) {
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(() => {
     const bookmarks = localStorage.getItem('bookmarks');
     return bookmarks ? JSON.parse(bookmarks).includes(paperID) : false;
   });
 
   const handleBookmark = () => {
     if (isBookmarked) {
-      const updatedBookmarks = JSON.parse(
-        localStorage.getItem('bookmarks')
-      ).filter((bookmarkedPaperID) => bookmarkedPaperID !== paperID);
+      const bookmarks: number[] = JSON.parse(
+        localStorage.getItem('bookmarks') as string
+      );
+      const updatedBookmarks: number[] = bookmarks.filter(
+        (bookmarkedPaperID) => bookmarkedPaperID !== paperID
+      );
       localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
       setIsBookmarked(false);
       onBookmark();

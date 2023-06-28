@@ -1,25 +1,29 @@
-import { useState } from 'react';
+import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import FormInput from '../components/FormInput';
-import { useAuthSetState, useAuthState } from '../contexts/auth';
+import { AuthPayload, useAuthSetState, useAuthState } from '../contexts/auth';
 import { SIGNININPUTS } from '../consts/inputs';
 import { loginUser } from '../APIs/user';
 
 function SignIn() {
   const navigate = useNavigate();
   const updateAuth = useAuthSetState();
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<{
+    [key: string]: string;
+    username: string;
+    password: string;
+  }>({
     username: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleFormInputChanges = (e) => {
+  const handleFormInputChanges: ChangeEventHandler<HTMLInputElement> = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
-  const handleLogIn = (e) => {
+  const handleLogIn: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     if (!formValues.username || !formValues.password) {
       setErrorMessage('username and password are required.');
@@ -29,7 +33,7 @@ function SignIn() {
           updateAuth({
             token: accessToken,
             loading: false,
-            username: jwtDecode(accessToken).username,
+            username: jwtDecode<AuthPayload>(accessToken).username,
           });
           navigate('/');
         })
@@ -55,7 +59,7 @@ function SignIn() {
               placeholder={input.placeholder}
               required={input.required}
               errorMessage={input.errorMessage}
-              pattern={input.pattern ? input.pattern : null}
+              pattern={input.pattern ? input.pattern : ''}
               onChange={handleFormInputChanges}
               value={formValues[input.name]}
             />

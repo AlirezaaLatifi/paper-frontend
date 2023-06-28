@@ -1,4 +1,15 @@
-const SIGNININPUTS = [
+type SignInInput = {
+  id: number;
+  name: string;
+  type: string;
+  label: string;
+  placeholder: string;
+  required: boolean;
+  errorMessage: string;
+  pattern?: string;
+};
+
+const SIGNININPUTS: SignInInput[] = [
   {
     id: 1,
     name: 'username',

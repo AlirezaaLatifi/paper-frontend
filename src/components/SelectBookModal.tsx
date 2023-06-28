@@ -5,11 +5,18 @@ import {
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { getSearchBooks } from '../APIs/book';
+import { Book, getSearchBooks } from '../APIs/book';
+import { HandleBookId, HandleBookTitle } from './AddCutPaper';
 
-function SelectBookModal({ onClose, onBookTitle, onBookId }) {
+type Props = {
+  onClose: () => void;
+  onBookTitle: HandleBookTitle;
+  onBookId: HandleBookId;
+};
+
+function SelectBookModal({ onClose, onBookTitle, onBookId }: Props) {
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [foundBook, setFoundBook] = useState(null);
+  const [foundBook, setFoundBook] = useState<Book | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSelected, setIsSelected] = useState(false);
 
@@ -30,9 +37,11 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }) {
   const onKeyPressHandler = () => {};
 
   const handleSubmit = () => {
-    onBookTitle(foundBook.title);
-    onBookId(foundBook.id);
-    onClose();
+    if (foundBook) {
+      onBookTitle(foundBook.title);
+      onBookId(foundBook.id);
+      onClose();
+    }
   };
 
   return createPortal(
@@ -70,38 +79,37 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }) {
           </button>
         </div>
 
-        {foundBook || errorMessage ? (
-          <div className="p-4 mx-auto bg-stone-200">
-            {errorMessage ? (
-              <p className="text-center p-4 bg-white">{errorMessage}</p>
-            ) : (
-              <div
-                className={`bg-white p-4 flex rounded-lg cursor-pointer border-4 border-gray-300 ${
-                  isSelected ? 'border-green-500' : ''
-                }`}
-                onClick={() => setIsSelected(!isSelected)}
-                // eslint-disable-next-line no-undef
-                onKeyDown={onKeyPressHandler}
-                role="button"
-                tabIndex="0"
-              >
-                <div className="bg-gray-800 text-white grid place-items-center w-[100px] h-[100px] rounded-lg self-center">
-                  <BookOpenIcon className="w-6 h-6" />
-                </div>
-                <div className="ml-4">
-                  <h2 className="font-bold">{foundBook.title}</h2>
-                  <p>
-                    Author:{' '}
-                    <span className="text-gray-700">{foundBook.author}</span>
-                  </p>
-                  <p className="text-gray-700 font-thin">
-                    {foundBook.shortDescription}
-                  </p>
-                </div>
+        <div className="p-4 mx-auto bg-stone-200">
+          {Boolean(errorMessage) && (
+            <p className="text-center p-4 bg-white">{errorMessage}</p>
+          )}
+          {foundBook ? (
+            <div
+              className={`bg-white p-4 flex rounded-lg cursor-pointer border-4 border-gray-300 ${
+                isSelected ? 'border-green-500' : ''
+              }`}
+              onClick={() => setIsSelected(!isSelected)}
+              // eslint-disable-next-line no-undef
+              onKeyDown={onKeyPressHandler}
+              role="button"
+              tabIndex={0}
+            >
+              <div className="bg-gray-800 text-white grid place-items-center w-[100px] h-[100px] rounded-lg self-center">
+                <BookOpenIcon className="w-6 h-6" />
               </div>
-            )}
-          </div>
-        ) : null}
+              <div className="ml-4">
+                <h2 className="font-bold">{foundBook.title}</h2>
+                <p>
+                  Author:{' '}
+                  <span className="text-gray-700">{foundBook.author}</span>
+                </p>
+                <p className="text-gray-700 font-thin">
+                  {foundBook.shortDescription}
+                </p>
+              </div>
+            </div>
+          ) : null}
+        </div>
         <button
           disabled={!isSelected}
           onClick={handleSubmit}
@@ -116,7 +124,7 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }) {
         </button>
       </div>
     </div>,
-    document.getElementById('portal')
+    document.getElementById('portal')!
   );
 }
 
