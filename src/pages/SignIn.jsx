@@ -85,7 +85,7 @@ function SignIn() {
 
 function Wrapper() {
   const auth = useAuthState();
-  if (auth?.token) redirect('/');
+  if (auth.token) redirect('/');
   return <SignIn />;
 }
 

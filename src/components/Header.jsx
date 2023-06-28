@@ -21,7 +21,7 @@ function Header() {
 
   function handleLogout() {
     logoutUser().then(() => {
-      updateAuth(null);
+      updateAuth({ token: '', loading: false, username: '' });
       navigate('/');
     });
   }

@@ -1,18 +1,43 @@
 import jwtDecode from 'jwt-decode';
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { getAccessToken } from '../APIs/user';
 import API from '../APIs';
 
+export type Auth = {
+  token: string;
+  loading: boolean;
+  username: string;
+};
+
+export type AuthPayload = {
+  username: string;
+};
+
 // * creating context
-const AuthContext = createContext(null);
-const AuthContextSetState = createContext(null);
+const AuthContext = createContext<Auth>({
+  token: '',
+  loading: true,
+  username: '',
+});
+const AuthContextSetState = createContext<Dispatch<SetStateAction<Auth>>>(
+  () => {}
+);
 
 // * custom context provider
-function AuthProvider({ children }) {
-  const [auth, setAuth] = useState({
-    token: null,
+function AuthProvider({ children }: PropsWithChildren) {
+  const [auth, setAuth] = useState<Auth>({
+    token: '',
     loading: true,
-    username: null,
+    username: '',
   });
 
   const authRef = useRef(auth);
@@ -25,16 +50,16 @@ function AuthProvider({ children }) {
         authRef.current = {
           token: accessToken,
           loading: false,
-          username: jwtDecode(accessToken).username,
+          username: jwtDecode<AuthPayload>(accessToken).username,
         };
         setAuth(authRef.current);
       })
       .catch((errorMessage) => {
         console.error(errorMessage);
         setAuth({
-          token: null,
+          token: '',
           loading: false,
-          username: null,
+          username: '',
         });
       });
   }, []);
@@ -70,7 +95,7 @@ function AuthProvider({ children }) {
                 authRef.current = {
                   token: accessToken,
                   loading: false,
-                  username: jwtDecode(accessToken).username,
+                  username: jwtDecode<AuthPayload>(accessToken).username,
                 };
                 setAuth(authRef.current);
 
@@ -119,7 +144,7 @@ function useAuthState() {
 function useAuthSetState() {
   const setAuth = useContext(AuthContextSetState);
 
-  const updateAuth = (newAuth) => {
+  const updateAuth = (newAuth: Auth) => {
     setAuth(newAuth);
   };
 
