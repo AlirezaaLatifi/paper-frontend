@@ -9,10 +9,8 @@ function WhitePaper({ paper, onPapersUpdate, onBookmark = () => {} }) {
   const auth = useAuthState();
   const handleDeletePaper = () => {
     deletePaper(paper.id).then(() => {
-      getAllPapers().then((res) => {
-        if (res.isSuccess) {
-          onPapersUpdate(res.papers);
-        }
+      getAllPapers().then((papers) => {
+        onPapersUpdate(papers);
       });
     });
   };

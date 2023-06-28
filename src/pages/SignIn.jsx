@@ -12,7 +12,6 @@ function SignIn() {
   const [formValues, setFormValues] = useState({
     username: '',
     password: '',
-    remember: false,
   });
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -25,18 +24,18 @@ function SignIn() {
     if (!formValues.username || !formValues.password) {
       setErrorMessage('username and password are required.');
     } else {
-      loginUser(formValues).then((res) => {
-        if (res.isSuccess) {
+      loginUser(formValues)
+        .then((accessToken) => {
           updateAuth({
-            token: res.accessToken,
+            token: accessToken,
             loading: false,
-            username: jwtDecode(res.accessToken).username,
+            username: jwtDecode(accessToken).username,
           });
           navigate('/');
-        } else {
-          setErrorMessage(res.message);
-        }
-      });
+        })
+        .catch((errorMessage) => {
+          setErrorMessage(errorMessage);
+        });
     }
   };
 
@@ -62,20 +61,6 @@ function SignIn() {
             />
           ))}
 
-          <div className="flex items-center gap-2">
-            {/* <label htmlFor="remember">remember me</label>
-            <input
-              id="remember"
-              type="checkbox"
-              checked={formValues.remember}
-              onChange={() =>
-                setFormValues({
-                  ...formValues,
-                  remember: !formValues.remember,
-                })
-              }
-            /> */}
-          </div>
           <button
             type="submit"
             className="w-full rounded-lg bg-teal-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-teal-700 focus:outline-none  dark:bg-teal-600 dark:hover:bg-teal-700 sm:w-auto"

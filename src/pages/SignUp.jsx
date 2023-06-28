@@ -54,13 +54,13 @@ function SignUp() {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    registerUser(formValues).then((isRegistered) => {
-      if (isRegistered) {
+    registerUser(formValues)
+      .then(() => {
         navigate('/');
-      } else {
-        setErrorMessage('username already exists.');
-      }
-    });
+      })
+      .catch((errorMessage) => {
+        setErrorMessage(errorMessage);
+      });
   };
 
   return (

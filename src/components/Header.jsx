@@ -20,11 +20,9 @@ function Header() {
   }
 
   function handleLogout() {
-    logoutUser().then(({ isSuccess }) => {
-      if (isSuccess) {
-        updateAuth(null);
-        navigate('/');
-      }
+    logoutUser().then(() => {
+      updateAuth(null);
+      navigate('/');
     });
   }
 

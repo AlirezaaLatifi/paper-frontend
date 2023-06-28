@@ -20,12 +20,10 @@ function Bookmarks() {
   }, [renderState]);
 
   useEffect(() => {
-    getAllPapers().then((res) => {
-      if (res.isSuccess) {
-        setBookmarkedPapers(
-          res.papers.filter((paper) => bookmarkedPaperIDs?.includes(paper.id))
-        );
-      }
+    getAllPapers().then((papers) => {
+      setBookmarkedPapers(
+        papers.filter((paper) => bookmarkedPaperIDs?.includes(paper.id))
+      );
     });
   }, [bookmarkedPaperIDs]);
 

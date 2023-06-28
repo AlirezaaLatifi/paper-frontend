@@ -4,28 +4,29 @@ import { addPaper, getAllPapers } from '../APIs/paper';
 import { useAuthState } from '../contexts/auth';
 
 function AddWhitePaper({ onPapersUpdate }) {
-  const [text, setText] = useState('');
+  const [paperData, setPaperData] = useState({
+    text: '',
+    paperType: 'white',
+  });
   const auth = useAuthState();
 
   const handleTextChange = (e) => {
-    setText(e.target.value);
+    setPaperData({ ...paperData, text: e.target.value });
   };
 
   const handleAddPaper = async () => {
-    addPaper('white', text, auth.username).then(() => {
-      getAllPapers().then((res) => {
-        if (res.isSuccess) {
-          onPapersUpdate(res.papers);
-        }
+    addPaper(paperData, auth.username).then(() => {
+      getAllPapers().then((papers) => {
+        onPapersUpdate(papers);
       });
     });
-    setText('');
+    setPaperData({ ...paperData, text: '' });
   };
 
   return (
     <>
       <textarea
-        value={text}
+        value={paperData.text}
         onChange={handleTextChange}
         className="mt-4 w-full resize-none rounded-xl border border-gray-300 bg-gray-50 p-2 font-handwrite focus:border focus:border-teal-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-teal-500 dark:focus:ring-teal-500"
       />

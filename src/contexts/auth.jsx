@@ -20,22 +20,23 @@ function AuthProvider({ children }) {
 
   // to get access token with refresh token at first mount
   useEffect(() => {
-    getAccessToken().then((res) => {
-      if (res.isSuccess) {
+    getAccessToken()
+      .then((accessToken) => {
         authRef.current = {
-          token: res.accessToken,
+          token: accessToken,
           loading: false,
-          username: jwtDecode(res.accessToken).username,
+          username: jwtDecode(accessToken).username,
         };
         setAuth(authRef.current);
-      } else {
+      })
+      .catch((errorMessage) => {
+        console.error(errorMessage);
         setAuth({
           token: null,
           loading: false,
           username: null,
         });
-      }
-    });
+      });
   }, []);
 
   useEffect(() => {
@@ -52,19 +53,49 @@ function AuthProvider({ children }) {
   useEffect(() => {
     API.interceptors.response.use(
       (res) => res,
-      (err) => {
-        if (err.response.status === 403) {
-          getAccessToken().then((res) => {
-            if (res.isSuccess) {
-              setAuth({
-                token: res.accessToken,
-                loading: false,
-                username: jwtDecode(res.accessToken).username,
+      (error) => {
+        let message;
+        // responded with status out of 2xx range.
+        if (error.response) {
+          if (error.response.status === 500) {
+            console.error('Error: ', error.response.data.message);
+            message = 'Something went wrong, Try again Later';
+          }
+
+          if (error.response.status === 403) {
+            console.error('Error: ', error.message);
+            message = error.message;
+            return getAccessToken()
+              .then((accessToken) => {
+                authRef.current = {
+                  token: accessToken,
+                  loading: false,
+                  username: jwtDecode(accessToken).username,
+                };
+                setAuth(authRef.current);
+
+                return API({
+                  ...error.config,
+                  Authorization: `bearer ${authRef.current?.token}`,
+                });
+              })
+              .catch((errorMessage) => {
+                console.error(errorMessage);
               });
-            }
-          });
+          }
         }
-        return Promise.reject(err.response.data.message);
+        // request was made, but no response was received
+        else if (error.request) {
+          console.error('Error: ', error.request);
+          message = error.message;
+        }
+        // Something happened in setting up the request that triggered an Error
+        else {
+          console.error('Error: ', error.message);
+          message = error.message;
+        }
+
+        return Promise.reject(message);
       }
     );
   }, []);

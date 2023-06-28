@@ -3,21 +3,25 @@ import API from './index';
 // get access token with refresh token
 async function getAccessToken() {
   try {
-    const { data } = await API.get('/refresh', {
+    const { data: accessToken } = await API.get<string>('/refresh', {
       withCredentials: true,
     });
-    return { isSuccess: true, accessToken: data.accessToken };
+    return accessToken;
   } catch (errorMessage) {
-    return { isSuccess: false };
+    return Promise.reject(errorMessage as string);
   }
 }
 
 // login
-async function loginUser(userInputs) {
-  const { username, password } = userInputs;
+export type UserInputs = {
+  username: string;
+  password: string;
+};
 
+async function loginUser(userInputs: UserInputs) {
+  const { username, password } = userInputs;
   try {
-    const { data } = await API.post(
+    const { data: accessToken } = await API.post<string>(
       '/auth',
       { username, pass: password },
       {
@@ -27,14 +31,14 @@ async function loginUser(userInputs) {
         withCredentials: true,
       }
     );
-    return { isSuccess: true, accessToken: data.accessToken };
+    return accessToken;
   } catch (errorMessage) {
-    return { isSuccess: false, message: errorMessage };
+    return Promise.reject(errorMessage as string);
   }
 }
 
 // register
-async function registerUser(userInputs) {
+async function registerUser(userInputs: UserInputs) {
   const { username, password } = userInputs;
   try {
     await API.post(
@@ -46,9 +50,8 @@ async function registerUser(userInputs) {
         },
       }
     );
-    return { isSuccess: true };
   } catch (errorMessage) {
-    return { message: errorMessage, isSuccess: false };
+    return Promise.reject(errorMessage as string);
   }
 }
 
@@ -56,9 +59,8 @@ async function registerUser(userInputs) {
 async function logoutUser() {
   try {
     await API.get('/logout', { withCredentials: true });
-    return { isSuccess: true };
-  } catch (err) {
-    return { isSuccess: false };
+  } catch (errorMessage) {
+    return Promise.reject(errorMessage as string);
   }
 }
 

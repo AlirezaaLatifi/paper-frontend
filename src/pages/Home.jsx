@@ -13,10 +13,8 @@ function Home() {
 
   // TODO
   useEffect(() => {
-    getAllPapers().then((res) => {
-      if (res.isSuccess) {
-        setPapers(res.papers);
-      }
+    getAllPapers().then((papers) => {
+      setPapers(papers);
     });
   }, [auth.token]);
 

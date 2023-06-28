@@ -16,6 +16,7 @@ function AddCutPaper({ onPapersUpdate }) {
     qoute: '',
     bookTitle: '',
     bookId: null,
+    papertype: 'cut',
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,11 +41,9 @@ function AddCutPaper({ onPapersUpdate }) {
   };
 
   const handleAddPaper = async () => {
-    addPaper('cut', paperData, auth.username).then(() => {
-      getAllPapers().then((res) => {
-        if (res.isSuccess) {
-          onPapersUpdate(res.papers);
-        }
+    addPaper(paperData, auth.username).then(() => {
+      getAllPapers().then((papers) => {
+        onPapersUpdate(papers);
       });
     });
     setPaperData({

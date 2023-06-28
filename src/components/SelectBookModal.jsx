@@ -14,17 +14,17 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }) {
   const [isSelected, setIsSelected] = useState(false);
 
   const handleSearch = () => {
-    getSearchBooks(searchInputValue).then((res) => {
-      if (res.isSuccess) {
-        setFoundBook(res.book);
+    getSearchBooks(searchInputValue)
+      .then((book) => {
+        setFoundBook(book);
         setErrorMessage('');
         setIsSelected(false);
-      } else {
+      })
+      .catch((errorMessage) => {
         setFoundBook(null);
-        setErrorMessage('book not found.');
+        setErrorMessage(errorMessage);
         setIsSelected(false);
-      }
-    });
+      });
   };
 
   const onKeyPressHandler = () => {};
