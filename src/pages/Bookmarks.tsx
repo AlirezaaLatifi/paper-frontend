@@ -4,26 +4,22 @@ import WhitePaper from '../components/WhitePaper';
 import CutPaper from '../components/CutPaper';
 
 function Bookmarks() {
-  const [renderState, setRenderState] = useState(false);
-  const [bookmarkedPaperIDs, setBookmarkedPaperIDs] = useState<number[]>([]);
   const [bookmarkedPapers, setBookmarkedPapers] = useState<Paper[]>([]);
 
   const onBookmark = () => {
-    setRenderState((pre) => !pre);
+    const bookmarkedIDs: number[] = JSON.parse(
+      localStorage.getItem('bookmarks') as string
+    );
+    getAllPapers().then((papers) => {
+      setBookmarkedPapers(
+        papers.filter((paper) => bookmarkedIDs.includes(paper.id))
+      );
+    });
   };
 
   useEffect(() => {
-    const bookmarks = localStorage.getItem('bookmarks');
-    setBookmarkedPaperIDs(bookmarks ? JSON.parse(bookmarks) : []);
-  }, [renderState]);
-
-  useEffect(() => {
-    getAllPapers().then((papers) => {
-      setBookmarkedPapers(
-        papers.filter((paper) => bookmarkedPaperIDs.includes(paper.id))
-      );
-    });
-  }, [bookmarkedPaperIDs]);
+    onBookmark();
+  }, []);
 
   return (
     <div className="flex flex-col gap-4 md:max-w-screen-sm md:mx-auto">
@@ -45,6 +41,7 @@ function Bookmarks() {
                 onPapersUpdate={() => {}}
                 key={paper.id}
                 paper={paper}
+                onBookmark={onBookmark}
               />
             );
           }
