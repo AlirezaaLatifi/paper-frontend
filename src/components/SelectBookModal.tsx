@@ -68,7 +68,7 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }: Props) {
             className="p-4 rounded-lg focus:outline-none border border-gray-500 w-full"
             type="text"
             name="bookname"
-            placeholder="Search book by full name"
+            placeholder="e.g. things fall apart, the book of job"
           />
           <button
             type="button"

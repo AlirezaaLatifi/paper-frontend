@@ -54,8 +54,7 @@ function AuthProvider({ children }: PropsWithChildren) {
         };
         setAuth(authRef.current);
       })
-      .catch((errorMessage) => {
-        console.error(errorMessage);
+      .catch(() => {
         setAuth({
           token: '',
           loading: false,
@@ -83,40 +82,36 @@ function AuthProvider({ children }: PropsWithChildren) {
         // responded with status out of 2xx range.
         if (error.response) {
           if (error.response.status === 500) {
-            console.error('Error: ', error.response.data.message);
+            console.error('Error 500: ', error);
             message = 'Something went wrong, Try again Later';
           }
 
           if (error.response.status === 403) {
-            console.error('Error: ', error.message);
+            console.error('Error 403: ', error);
             message = error.message;
-            return getAccessToken()
-              .then((accessToken) => {
-                authRef.current = {
-                  token: accessToken,
-                  loading: false,
-                  username: jwtDecode<AuthPayload>(accessToken).username,
-                };
-                setAuth(authRef.current);
+            return getAccessToken().then((accessToken) => {
+              authRef.current = {
+                token: accessToken,
+                loading: false,
+                username: jwtDecode<AuthPayload>(accessToken).username,
+              };
+              setAuth(authRef.current);
 
-                return API({
-                  ...error.config,
-                  Authorization: `bearer ${authRef.current?.token}`,
-                });
-              })
-              .catch((errorMessage) => {
-                console.error(errorMessage);
+              return API({
+                ...error.config,
+                Authorization: `bearer ${authRef.current?.token}`,
               });
+            });
           }
         }
         // request was made, but no response was received
         else if (error.request) {
-          console.error('Error: ', error.request);
+          console.error('NO RESPONSE: ', error);
           message = error.message;
         }
         // Something happened in setting up the request that triggered an Error
         else {
-          console.error('Error: ', error.message);
+          console.error('NO REQUEST: ', error);
           message = error.message;
         }
 
