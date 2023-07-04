@@ -31,6 +31,7 @@ function AddWhitePaper({ onPapersUpdate }: Props) {
   return (
     <>
       <textarea
+        placeholder="what's on your mind?"
         value={paperData.text}
         onChange={handleTextChange}
         className="mt-4 w-full resize-none rounded-xl border border-gray-300 bg-gray-50 p-2 font-handwrite focus:border focus:border-teal-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-teal-500 dark:focus:ring-teal-500"

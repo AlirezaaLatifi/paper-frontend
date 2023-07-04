@@ -1,6 +1,5 @@
 import {
   ArrowRightOnRectangleIcon,
-  BookmarkIcon,
   HomeIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
@@ -91,19 +90,6 @@ function Header() {
               >
                 <UserIcon className="w-5 h-5" />
                 Profile
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/bookmarks"
-                className={({ isActive }) => {
-                  return `${
-                    isActive && 'bg-teal-600 text-white md:text-teal-700'
-                  } flex items-center gap-1 rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0`;
-                }}
-              >
-                <BookmarkIcon className="h-5 w-5" />
-                Bookmarks
               </NavLink>
             </li>
             <li className="block rounded py-2 pl-3 pr-4 font-medium text-black dark:text-white md:bg-transparent md:p-0">

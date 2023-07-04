@@ -1,6 +1,5 @@
 import { DocumentMinusIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
-import PaperActionBar from './PaperActionBar';
 import { useAuthState } from '../contexts/auth';
 import { WhitePaperType, deletePaper, getAllPapers } from '../APIs/paper';
 import { HandlePapersFunc } from '../pages/Home';
@@ -8,10 +7,9 @@ import { HandlePapersFunc } from '../pages/Home';
 type Props = {
   paper: WhitePaperType;
   onPapersUpdate: HandlePapersFunc;
-  onBookmark?: () => void;
 };
 
-function WhitePaper({ paper, onPapersUpdate, onBookmark = () => {} }: Props) {
+function WhitePaper({ paper, onPapersUpdate }: Props) {
   const { pathname } = useLocation();
   const auth = useAuthState();
   const handleDeletePaper = () => {
@@ -48,7 +46,6 @@ function WhitePaper({ paper, onPapersUpdate, onBookmark = () => {} }: Props) {
           <p className="font-handwrite">{paper.text}</p>
         </div>
       </div>
-      <PaperActionBar paperID={paper.id} onBookmark={onBookmark} />
     </div>
   );
 }
