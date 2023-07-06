@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         handwrite: 'Shantell Sans',
-        book: 'Libre Caslon Text',
+        book: 'Josefin Sans',
       },
     },
   },
