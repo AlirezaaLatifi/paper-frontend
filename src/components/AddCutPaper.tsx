@@ -4,49 +4,63 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { PaperClipIcon } from '@heroicons/react/24/solid';
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, useReducer, useState } from 'react';
 import { useAuthState } from '../contexts/auth';
 import { getAllPapers, addPaper, CutPaperData } from '../APIs/paper';
 import SelectBookModal from './SelectBookModal';
 import { HandlePapersFunc } from '../pages/Home';
-
-export type HandleBookTitle = (bookTitle: string) => void;
-
-export type HandleBookId = (bookId: number | null) => void;
+import { cutPaperReducer } from '../reducers/reducers';
 
 type Props = {
   onPapersUpdate: HandlePapersFunc;
 };
 
+export const initialCutPaperState: CutPaperData = {
+  text: '',
+  qoute: '',
+  bookTitle: '',
+  bookId: null,
+  paperType: 'cut',
+};
+
 function AddCutPaper({ onPapersUpdate }: Props) {
   const auth = useAuthState();
-  const [paperData, setPaperData] = useState<CutPaperData>({
-    text: '',
-    qoute: '',
-    bookTitle: '',
-    bookId: null,
-    paperType: 'cut',
-  });
+  const [paperData, dispatchPaper] = useReducer(
+    cutPaperReducer,
+    initialCutPaperState
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleQoute: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setPaperData({ ...paperData, qoute: e.target.value });
+    dispatchPaper({
+      type: 'changeQoute',
+      payload: {
+        text: e.target.value,
+      },
+    });
   };
 
   const handleText: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setPaperData({ ...paperData, text: e.target.value });
-  };
-
-  const handleBookId: HandleBookId = (bookId) => {
-    setPaperData((pre) => {
-      return { ...pre, bookId };
+    dispatchPaper({
+      type: 'changeText',
+      payload: {
+        text: e.target.value,
+      },
     });
   };
 
-  const handleBookTitle: HandleBookTitle = (bookTitle: string) => {
-    setPaperData((pre) => {
-      return { ...pre, bookTitle };
+  const handleSelectBook = (id: number, title: string) => {
+    dispatchPaper({
+      type: 'selectBook',
+      payload: {
+        bookId: id,
+        bookTitle: title,
+      },
     });
+  };
+
+  const handleUnselectBook = () => {
+    dispatchPaper({ type: 'unselectBook' });
   };
 
   const handleAddPaper = async () => {
@@ -55,13 +69,7 @@ function AddCutPaper({ onPapersUpdate }: Props) {
         onPapersUpdate(papers);
       });
     });
-    setPaperData({
-      paperType: 'cut',
-      text: '',
-      qoute: '',
-      bookTitle: '',
-      bookId: null,
-    });
+    dispatchPaper({ type: 'reset' });
   };
 
   return (
@@ -71,10 +79,7 @@ function AddCutPaper({ onPapersUpdate }: Props) {
           <button
             type="button"
             className="group mr-2 mt-4 inline-flex items-center rounded-lg bg-teal-50 py-2 px-4 text-teal-800 hover:bg-teal-100"
-            onClick={() => {
-              handleBookTitle('');
-              handleBookId(null);
-            }}
+            onClick={handleUnselectBook}
           >
             <BookOpenIcon className="h-5 w-5" />
             <span className="ml-2">{paperData.bookTitle}</span>
@@ -95,8 +100,7 @@ function AddCutPaper({ onPapersUpdate }: Props) {
         )}
         {isModalOpen && (
           <SelectBookModal
-            onBookTitle={handleBookTitle}
-            onBookId={handleBookId}
+            onBookSelect={handleSelectBook}
             onClose={() => {
               document.body.style.overflow = 'scroll';
               setIsModalOpen(false);

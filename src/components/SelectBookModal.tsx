@@ -6,15 +6,13 @@ import {
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Book, getSearchBooks } from '../APIs/book';
-import { HandleBookId, HandleBookTitle } from './AddCutPaper';
 
 type Props = {
   onClose: () => void;
-  onBookTitle: HandleBookTitle;
-  onBookId: HandleBookId;
+  onBookSelect: (id: number, title: string) => void;
 };
 
-function SelectBookModal({ onClose, onBookTitle, onBookId }: Props) {
+function SelectBookModal({ onClose, onBookSelect }: Props) {
   const [searchInputValue, setSearchInputValue] = useState('');
   const [foundBook, setFoundBook] = useState<Book | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,8 +36,7 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }: Props) {
 
   const handleSubmit = () => {
     if (foundBook) {
-      onBookTitle(foundBook.title);
-      onBookId(foundBook.id);
+      onBookSelect(foundBook.id, foundBook.title);
       onClose();
     }
   };
