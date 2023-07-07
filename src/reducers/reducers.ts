@@ -2,34 +2,28 @@ import { CutPaperData } from '../APIs/paper';
 import { initialCutPaperState } from '../components/AddCutPaper';
 import { cutPaperAction } from './actions';
 
-export function cutPaperReducer(state: CutPaperData, action: cutPaperAction) {
+export function cutPaperReducer(draft: CutPaperData, action: cutPaperAction) {
   if (action.type === 'changeText') {
-    return { ...state, text: action.payload.text };
+    draft.text = action.payload.text;
   }
 
   if (action.type === 'changeQoute') {
-    return { ...state, qoute: action.payload.text };
+    draft.qoute = action.payload.text;
   }
 
   if (action.type === 'selectBook') {
-    return {
-      ...state,
-      bookId: action.payload.bookId,
-      bookTitle: action.payload.bookTitle,
-    };
+    draft.bookId = action.payload.bookId;
+    draft.bookTitle = action.payload.bookTitle;
   }
 
   if (action.type === 'unselectBook') {
-    return {
-      ...state,
-      bookId: null,
-      bookTitle: '',
-    };
+    draft.bookId = null;
+    draft.bookTitle = '';
   }
 
   if (action.type === 'reset') {
-    return initialCutPaperState;
+    draft = initialCutPaperState;
   }
 
-  return state;
+  return draft;
 }

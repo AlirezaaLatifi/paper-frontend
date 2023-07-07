@@ -4,12 +4,13 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { PaperClipIcon } from '@heroicons/react/24/solid';
-import { ChangeEventHandler, useReducer, useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 import { useAuthState } from '../contexts/auth';
 import { getAllPapers, addPaper, CutPaperData } from '../APIs/paper';
 import SelectBookModal from './SelectBookModal';
 import { HandlePapersFunc } from '../pages/Home';
 import { cutPaperReducer } from '../reducers/reducers';
+import { useImmerReducer } from 'use-immer';
 
 type Props = {
   onPapersUpdate: HandlePapersFunc;
@@ -25,7 +26,7 @@ export const initialCutPaperState: CutPaperData = {
 
 function AddCutPaper({ onPapersUpdate }: Props) {
   const auth = useAuthState();
-  const [paperData, dispatchPaper] = useReducer(
+  const [paperData, dispatchPaper] = useImmerReducer(
     cutPaperReducer,
     initialCutPaperState
   );
