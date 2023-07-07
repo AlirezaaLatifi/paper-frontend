@@ -53,10 +53,10 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }: Props) {
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="p-4 bg-gray-300 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 min-h-[250px]"
+        className="p-4 bg-gray-100 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 min-h-[250px]"
       >
-        <div className="flex justify-between mb-6">
-          <h2 className="text-xl"> &gt;&gt; Attach Book</h2>
+        <div className="flex justify-between p-2">
+          <h2 className="text-xl">Attach The Book</h2>
           <button type="button" onClick={onClose}>
             <XMarkIcon className="w-6 h-6 text-red-600" />
           </button>
@@ -79,7 +79,7 @@ function SelectBookModal({ onClose, onBookTitle, onBookId }: Props) {
           </button>
         </div>
 
-        <div className="p-4 mx-auto bg-stone-200">
+        <div className="p-4 mx-auto bg-gray-200 rounded">
           {Boolean(errorMessage) && (
             <p className="text-center p-4 bg-white">{errorMessage}</p>
           )}
