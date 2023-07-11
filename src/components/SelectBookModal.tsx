@@ -1,11 +1,9 @@
-import {
-  BookOpenIcon,
-  MagnifyingGlassIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { ChangeEventHandler, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Book, getSearchBooks } from '../APIs/book';
+import { getAllBooks } from '../APIs/book';
+import { useQuery } from '@tanstack/react-query';
+import BookCard from './BookCard';
 
 type Props = {
   onClose: () => void;
@@ -14,31 +12,39 @@ type Props = {
 
 function SelectBookModal({ onClose, onBookSelect }: Props) {
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [foundBook, setFoundBook] = useState<Book | null>(null);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isSelected, setIsSelected] = useState(false);
+  const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
 
-  const handleSearch = () => {
-    getSearchBooks(searchInputValue)
-      .then((book) => {
-        setFoundBook(book);
-        setErrorMessage('');
-        setIsSelected(false);
-      })
-      .catch((errorMessage) => {
-        setFoundBook(null);
-        setErrorMessage(errorMessage);
-        setIsSelected(false);
-      });
+  const {
+    data: books,
+    isError,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['books'],
+    queryFn: getAllBooks,
+    staleTime: Infinity,
+  });
+
+  const foundBooks = books?.filter((book) =>
+    searchInputValue
+      ? book.title.toLocaleLowerCase().includes(searchInputValue)
+      : false
+  );
+
+  const handleSelectedBook = (bookId: number) => {
+    setSelectedBookId(bookId);
   };
 
-  const onKeyPressHandler = () => {};
+  const handleSearchInput: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSearchInputValue(e.target.value);
+    setSelectedBookId(null);
+  };
 
   const handleSubmit = () => {
-    if (foundBook) {
-      onBookSelect(foundBook.id, foundBook.title);
-      onClose();
-    }
+    const title = foundBooks?.find((book) => book.id === selectedBookId)?.title;
+    // how to type narrow correctly, in a way to not need to use ! mark ??
+    onBookSelect(selectedBookId!, title!);
+    onClose();
   };
 
   return createPortal(
@@ -60,58 +66,40 @@ function SelectBookModal({ onClose, onBookSelect }: Props) {
         </div>
         <div className="w-1/2 mx-auto flex mb-6">
           <input
+            disabled={isLoading}
             value={searchInputValue}
-            onChange={(e) => setSearchInputValue(e.target.value)}
-            className="p-4 rounded-lg focus:outline-none border border-gray-500 w-full"
+            onChange={handleSearchInput}
+            className={`p-4 rounded-lg focus:outline-none border ${
+              isLoading ? 'border-gray-200' : 'border-gray-600'
+            } w-full`}
             type="text"
             name="bookname"
             placeholder="e.g. things fall apart, the book of job"
           />
-          <button
-            type="button"
-            className="p-4 bg-blue-600 -ml-4 rounded-r-md hover:bg-blue-800"
-            onClick={handleSearch}
-          >
-            <MagnifyingGlassIcon className="w-5 h-5 text-white" />
-          </button>
         </div>
 
-        <div className="p-4 mx-auto bg-gray-200 rounded">
-          {Boolean(errorMessage) && (
-            <p className="text-center p-4 bg-white">{errorMessage}</p>
-          )}
-          {foundBook ? (
-            <div
-              className={`bg-white p-4 flex rounded-lg cursor-pointer border-4 border-gray-300 ${
-                isSelected ? 'border-green-500' : ''
-              }`}
-              onClick={() => setIsSelected(!isSelected)}
-              // eslint-disable-next-line no-undef
-              onKeyDown={onKeyPressHandler}
-              role="button"
-              tabIndex={0}
-            >
-              <div className="bg-gray-800 text-white grid place-items-center w-[100px] h-[100px] rounded-lg self-center">
-                <BookOpenIcon className="w-6 h-6" />
-              </div>
-              <div className="ml-4">
-                <h2 className="font-bold">{foundBook.title}</h2>
-                <p>
-                  Author:{' '}
-                  <span className="text-gray-700">{foundBook.author}</span>
-                </p>
-                <p className="text-gray-700 font-thin">
-                  {foundBook.shortDescription}
-                </p>
-              </div>
-            </div>
-          ) : null}
-        </div>
+        {isError ? (
+          <div className="bg-white py-4 text-center rounded-lg">{`${error}`}</div>
+        ) : null}
+
+        {foundBooks ? (
+          <div className="grid gap-4 bg-white p-4 max-h-[50vh] overflow-scroll">
+            {foundBooks.map((book) => (
+              <BookCard
+                isSelected={book.id === selectedBookId}
+                key={book.id}
+                book={book}
+                onSelect={handleSelectedBook}
+              />
+            ))}
+          </div>
+        ) : null}
+
         <button
-          disabled={!isSelected}
+          disabled={!selectedBookId}
           onClick={handleSubmit}
-          className={`py-2 px-4 rounded mx-auto block mt-8 ${
-            !isSelected
+          className={`py-2 px-4 rounded mx-auto block my-12 ${
+            !selectedBookId
               ? 'bg-gray-400 text-gray-500 hover:cursor-not-allowed'
               : 'bg-teal-600 text-white hover:bg-teal-800'
           }`}

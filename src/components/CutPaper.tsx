@@ -1,22 +1,26 @@
 import { BookOpenIcon, DocumentMinusIcon } from '@heroicons/react/24/outline';
 import { useAuthState } from '../contexts/auth';
 import { CutPaperType, deletePaper, getAllPapers } from '../APIs/paper';
-import { HandlePapersFunc } from '../pages/Home';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type Props = {
   paper: CutPaperType;
-  onPapersUpdate: HandlePapersFunc;
 };
 
-function CutPaper({ paper, onPapersUpdate }: Props) {
+function CutPaper({ paper }: Props) {
   const auth = useAuthState();
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: deletePaper,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['papers']);
+    },
+  });
   const handleDeletePaper = () => {
-    deletePaper(paper.id).then(() => {
-      getAllPapers().then((papers) => {
-        onPapersUpdate(papers);
-      });
-    });
+    mutation.mutate(paper.id);
   };
+
   return (
     <div className="flex flex-col gap-4 border border-gray-300 bg-white p-4">
       <div className="flex gap-4">

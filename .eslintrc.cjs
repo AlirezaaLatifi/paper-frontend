@@ -8,6 +8,7 @@ module.exports = {
     'airbnb/hooks',
     'airbnb-typescript',
     'plugin:react/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:prettier/recommended',
   ],
   parser: '@typescript-eslint/parser',
@@ -19,7 +20,7 @@ module.exports = {
     ecmaVersion: 14,
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['react', '@tanstack/query'],
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
     'react/react-in-jsx-scope': 'off',

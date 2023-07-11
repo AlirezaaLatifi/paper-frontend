@@ -1,13 +1,8 @@
 import { ChangeEventHandler, useState } from 'react';
 import AddCutPaper from './AddCutPaper';
 import AddWhitePaper from './AddWhitePaper';
-import { HandlePapersFunc } from '../pages/Home';
 
-type Props = {
-  onPapersUpdate: HandlePapersFunc;
-};
-
-function AddPaper({ onPapersUpdate }: Props) {
+function AddPaper() {
   const [paperType, setPaperType] = useState('cut');
 
   const handlePaperType: ChangeEventHandler<HTMLSelectElement> = (e) => {
@@ -24,11 +19,7 @@ function AddPaper({ onPapersUpdate }: Props) {
         <option value="white">White Paper</option>
         <option value="cut">Cut Paper</option>
       </select>
-      {paperType === 'white' ? (
-        <AddWhitePaper onPapersUpdate={onPapersUpdate} />
-      ) : (
-        <AddCutPaper onPapersUpdate={onPapersUpdate} />
-      )}
+      {paperType === 'white' ? <AddWhitePaper /> : <AddCutPaper />}
     </div>
   );
 }

@@ -70,7 +70,13 @@ export type CutPaperData = {
 type PaperData = WhitePaperData | CutPaperData;
 
 // add paper
-async function addPaper(paperData: PaperData, username: string) {
+async function addPaper({
+  paperData,
+  username,
+}: {
+  paperData: PaperData;
+  username: string;
+}) {
   let reqBody;
   if (paperData.paperType === 'white') {
     reqBody = { username, text: paperData.text, type: paperData.paperType };

@@ -35,7 +35,8 @@ async function getBook(bookID: number) {
 }
 
 // get searched books
-async function getSearchBooks(searchParam: string) {
+async function getSearchBooks({ queryKey }: { queryKey: string[] }) {
+  const [_key, searchParam] = queryKey;
   try {
     const { data } = await API.get<Book>(`/books/search?title=${searchParam}`);
     return data;

@@ -5,16 +5,12 @@ import {
 } from '@heroicons/react/24/outline';
 import { PaperClipIcon } from '@heroicons/react/24/solid';
 import { ChangeEventHandler, useState } from 'react';
-import { useAuthState } from '../contexts/auth';
-import { getAllPapers, addPaper, CutPaperData } from '../APIs/paper';
+import { CutPaperData, addPaper } from '../APIs/paper';
 import SelectBookModal from './SelectBookModal';
-import { HandlePapersFunc } from '../pages/Home';
 import { cutPaperReducer } from '../reducers/reducers';
 import { useImmerReducer } from 'use-immer';
-
-type Props = {
-  onPapersUpdate: HandlePapersFunc;
-};
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAuthState } from '../contexts/auth';
 
 export const initialCutPaperState: CutPaperData = {
   text: '',
@@ -24,13 +20,21 @@ export const initialCutPaperState: CutPaperData = {
   paperType: 'cut',
 };
 
-function AddCutPaper({ onPapersUpdate }: Props) {
+function AddCutPaper() {
   const auth = useAuthState();
   const [paperData, dispatchPaper] = useImmerReducer(
     cutPaperReducer,
     initialCutPaperState
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: addPaper,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['papers']);
+    },
+  });
 
   const handleQoute: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     dispatchPaper({
@@ -40,7 +44,6 @@ function AddCutPaper({ onPapersUpdate }: Props) {
       },
     });
   };
-
   const handleText: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     dispatchPaper({
       type: 'changeText',
@@ -49,7 +52,6 @@ function AddCutPaper({ onPapersUpdate }: Props) {
       },
     });
   };
-
   const handleSelectBook = (id: number, title: string) => {
     dispatchPaper({
       type: 'selectBook',
@@ -59,17 +61,12 @@ function AddCutPaper({ onPapersUpdate }: Props) {
       },
     });
   };
-
   const handleUnselectBook = () => {
     dispatchPaper({ type: 'unselectBook' });
   };
 
   const handleAddPaper = async () => {
-    addPaper(paperData, auth.username).then(() => {
-      getAllPapers().then((papers) => {
-        onPapersUpdate(papers);
-      });
-    });
+    mutation.mutate({ paperData, username: auth.username });
     dispatchPaper({ type: 'reset' });
   };
 

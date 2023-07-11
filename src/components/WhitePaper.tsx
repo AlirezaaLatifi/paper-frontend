@@ -1,23 +1,27 @@
 import { DocumentMinusIcon } from '@heroicons/react/24/outline';
 import { useLocation } from 'react-router-dom';
 import { useAuthState } from '../contexts/auth';
-import { WhitePaperType, deletePaper, getAllPapers } from '../APIs/paper';
-import { HandlePapersFunc } from '../pages/Home';
+import { WhitePaperType, deletePaper } from '../APIs/paper';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type Props = {
   paper: WhitePaperType;
-  onPapersUpdate: HandlePapersFunc;
 };
 
-function WhitePaper({ paper, onPapersUpdate }: Props) {
+function WhitePaper({ paper }: Props) {
   const { pathname } = useLocation();
   const auth = useAuthState();
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: deletePaper,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['papers']);
+    },
+  });
+
   const handleDeletePaper = () => {
-    deletePaper(paper.id).then(() => {
-      getAllPapers().then((papers) => {
-        onPapersUpdate(papers);
-      });
-    });
+    mutation.mutate(paper.id);
   };
 
   return (
