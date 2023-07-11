@@ -3,10 +3,14 @@ import AddCutPaper from './AddCutPaper';
 import AddWhitePaper from './AddWhitePaper';
 
 function AddPaper() {
-  const [paperType, setPaperType] = useState('cut');
+  const [paperType, setPaperType] = useState<string>(() => {
+    const paperType = localStorage.getItem('paperType');
+    return paperType ? paperType : 'cut';
+  });
 
   const handlePaperType: ChangeEventHandler<HTMLSelectElement> = (e) => {
     setPaperType(e.target.value);
+    localStorage.setItem('paperType', e.target.value);
   };
 
   return (
