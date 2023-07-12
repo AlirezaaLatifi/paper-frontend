@@ -1,6 +1,6 @@
 import { BookOpenIcon, DocumentMinusIcon } from '@heroicons/react/24/outline';
 import { useAuthState } from '../contexts/auth';
-import { CutPaperType, deletePaper, getAllPapers } from '../APIs/paper';
+import { CutPaperType, deletePaper } from '../APIs/paper';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type Props = {
