@@ -22,12 +22,22 @@ export type CutPaperType = {
 };
 
 export type Paper = WhitePaperType | CutPaperType;
+export type GetPapersReturnType = {
+  total: number;
+  page: number;
+  pageSize: number;
+  data: Paper[];
+  nextPage: number;
+  hasNextPage: boolean;
+};
 
 // get all papers
-async function getAllPapers() {
+async function getAllPapers({ pageParam = 1 }) {
   try {
-    const { data: papers } = await API.get<Paper[]>('/papers');
-    return papers;
+    const { data } = await API.get<GetPapersReturnType>(
+      `/papers?page=${pageParam}&pageSize=5`
+    );
+    return data;
   } catch (errorMessage) {
     return Promise.reject(errorMessage as string);
   }

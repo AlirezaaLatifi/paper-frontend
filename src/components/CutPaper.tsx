@@ -2,6 +2,7 @@ import { BookOpenIcon, DocumentMinusIcon } from '@heroicons/react/24/outline';
 import { useAuthState } from '../contexts/auth';
 import { CutPaperType, deletePaper } from '../APIs/paper';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 type Props = {
   paper: CutPaperType;
@@ -45,13 +46,13 @@ function CutPaper({ paper }: Props) {
             )}
           </div>
           <p className="bg-gray-50 px-4 py-2 font-book">{paper.qoute}</p>
-          <a
-            href="#"
+          <Link
+            to={`book/${paper.bookID}`}
             className="mt-2 flex w-max gap-2 rounded-full bg-sky-50 px-4 py-2 text-sm text-sky-900 hover:bg-sky-100"
           >
             <BookOpenIcon className="h-5 w-5" />
             {paper.bookTitle}
-          </a>
+          </Link>
           <div className="my-4 border border-dashed border-gray-400" />
           <p className="rounded-xl bg-gray-50 px-4 py-2 font-handwrite">
             {paper.text}
