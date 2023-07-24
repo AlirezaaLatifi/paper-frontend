@@ -15,4 +15,4 @@ I aim **to apply what I learn and improve my abilities**, by implementing new fe
 
 ## Demo
 
-https://alirezaa-latifi.github.io/paper-frontend
+https://alirezaalatifi.github.io/paper-frontend
